@@ -1,6 +1,8 @@
 # Leonardo: interface, páginas e ligação do modal
 
-Sua branch é `codex/leonardo`. Sua parte é implementar os componentes que apresentam as tarefas e ligar a estrutura da aplicação ao modal feito por Felipe. Gabriel já deixou os dados e as operações prontos no contexto.
+Branch: `codex/leonardo`. A contribuição foi concluída e integrada pelo PR #2, merge `6fb422b`. Os commits `318cb88`, `e491883` e `ac92b64` estão associados à conta `Nicleo1112` no GitHub.
+
+Foram implementados TaskCard/TaskList, a abertura de um único modal pelos três botões e as quatro páginas com filtros sobre o contexto compartilhado. Leonardo acrescentou 18 testes de cards, páginas e integração. A validação final está em [VALIDACAO.md](VALIDACAO.md). As seções seguintes preservam o roteiro original, já implementado.
 
 ## Começar
 

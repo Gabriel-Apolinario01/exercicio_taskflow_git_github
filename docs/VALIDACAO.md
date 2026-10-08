@@ -1,50 +1,81 @@
 # Verificação do TaskFlow
 
-## Etapa de Gabriel - 08/10/2026
+## Resultado final — 08/10/2026
 
-- ESLint: aprovado, sem avisos.
-- Vitest: 23 testes aprovados em dois arquivos.
-- TypeScript + Vite: build de produção aprovado.
-- Navegador: quatro rotas acessíveis, navegação ativa, estrutura permanente preservada e mensagem de configuração ausente em Todas as tarefas.
-- Console da base: sem erros ou avisos na navegação verificada.
-- Layout da base: conferido em 1280px e 390px, sem rolagem horizontal.
+A versão integrada das contribuições de Gabriel, Felipe e Leonardo foi revisada em `codex/gabriel`, a partir da `main` no merge `6fb422b`. Não foram necessárias correções no código das contribuições. A documentação foi atualizada para refletir o estado consolidado, e as evidências desta validação foram acrescentadas pela branch de Gabriel.
 
-Os testes cobrem GET/POST/DELETE, configuração inválida, resposta inválida, criação sem envio de `_id`, erros de rede, carregamento, atualização após persistência, preservação de tarefas em falhas, tentativa posterior, consumidores compartilhados e limpeza de efeitos no StrictMode.
+### Instalação e verificações automatizadas
 
-**Limite desta validação:** as respostas HTTP dos testes são simuladas. Nenhum endpoint real do CrudCrud foi fornecido/configurado nesta etapa. Não foi validado ainda o fluxo visual de cadastrar e excluir com backend real, porque TaskForm/TaskModal e TaskCard/TaskList pertencem às contribuições que faltam. A base não é a aplicação final do grupo.
+| Verificação | Resultado |
+| --- | --- |
+| `npm ci` | Aprovado; 264 pacotes instalados pelo lockfile. |
+| Auditoria exibida na instalação | 0 vulnerabilidades informadas nessa execução. |
+| `npm run lint` | Aprovado, sem avisos. |
+| `npm test` | 62 testes aprovados em 7 arquivos. |
+| `npm run build` | TypeScript e build de produção Vite aprovados. |
 
-## Etapa de Felipe - 08/10/2026
+O comando `npm run check` executou lint, testes e build após a instalação. Os testes automatizados simulam o serviço HTTP: não são a evidência da persistência real descrita abaixo.
 
-- TaskForm e TaskModal implementados em `codex/felipe`, sem modificar os arquivos atribuídos a Leonardo.
-- 21 testes acrescentados: 9 de formulário e 12 de modal; 44 testes no projeto, incluindo os 23 da base.
-- Testes verificam campos, limites, título inválido, cancelamento, duplicação de envio, falha e nova tentativa, fechamento após sucesso, atualização do contexto, foco e restauração do fundo.
-- Prévia local no navegador: cadastro com atualização da coleção, falha sem apagar campos, nova tentativa bem-sucedida, Tab/Shift+Tab e Escape conferidos.
-- Layout do modal conferido em desktop e 390px, com rolagem interna e sem rolagem horizontal.
-- A API da prévia era temporária, local e em memória; nenhum dado foi enviado ao CrudCrud real.
+A cobertura inclui serviço/configuração, contexto compartilhado, campos e validação do formulário, bloqueio de envios repetidos, falha e nova tentativa, foco do modal, restauração do fundo, três gatilhos para um único modal, filtros por data local, carregamento/vazio/erro e exclusão que preserva a tarefa em caso de falha.
 
-**Pendente:** merge desta contribuição, ligação de uma única instância do modal no Layout e dos três botões por Leonardo, além da verificação final com um endpoint CrudCrud válido. O build atual valida os arquivos TypeScript; os componentes do modal só entrarão na interface principal quando forem importados pelo Layout.
+### Navegador e CrudCrud real
 
-## Conferência após os merges dos colegas
+Foi gerado um endpoint gratuito temporário no CrudCrud e configurado somente no `.env` local, ignorado pelo Git. Os testes usaram o frontend da aplicação com Axios acessando o serviço real, sem proxy ou API simulada.
 
-- [ ] Todos fizeram alterações reais e commits próprios em suas branches.
-- [ ] Os merges de cada contribuição aparecem no histórico da `main`.
-- [ ] `npm ci` e `npm run check` passam em um clone atualizado.
-- [ ] `.env` contém um endpoint CrudCrud válido e sem `/tarefas` no final.
-- [ ] GET carrega a coleção, com estados de carregamento, vazio e erro visíveis.
-- [ ] Header, Sidebar e Tasks abrem a mesma instância de TaskModal.
-- [ ] Modal bloqueia cliques e navegação de teclado para elementos ao fundo.
-- [ ] Formulário permanece interativo; título inválido não envia.
-- [ ] Enquanto salva, não há cadastro duplicado nem fechamento prematuro.
-- [ ] POST bem-sucedido retorna `_id`, atualiza a lista e só então fecha o modal.
-- [ ] POST com falha preserva a janela e os campos e exibe uma mensagem.
-- [ ] X e Cancelar fecham a janela; Escape e foco são tratados corretamente.
-- [ ] Fechado, o modal não deixa overlay invisível nem bloqueio de rolagem.
-- [ ] DELETE bem-sucedido remove a tarefa; falha preserva a tarefa e informa erro.
-- [ ] Recarregar a página confirma a persistência real de criação e exclusão.
-- [ ] As quatro páginas e os critérios combinados funcionam com a mesma coleção.
-- [ ] A interface funciona em desktop e celular, sem cortes ou rolagem horizontal.
-- [ ] Não há botões que anunciem ações não implementadas.
-- [ ] O professor consegue abrir o repositório; branches e histórico permanecem disponíveis.
-- [ ] Um único integrante envia o link no ambiente de entrega até 09/11/2026.
+- GET exibiu inicialmente a coleção vazia.
+- Header, Sidebar e Todas as tarefas abriram o mesmo modal; os três caminhos foram usados para cadastrar registros.
+- Título composto apenas de espaços foi rejeitado sem fechar a janela.
+- POST retornou a tarefa com `_id`; a lista foi atualizada e o modal fechou após o sucesso. Durante o envio, campos e botões ficaram desabilitados.
+- Foram cadastradas três tarefas pelo formulário: sem prazo, com prazo futuro e com prazo no dia da validação.
+- Um quarto registro descartável foi criado diretamente na API com `concluida: true` para conferir o filtro Concluídas. A interface não implementa alteração de conclusão/PUT.
+- Após recarregar a página, os registros voltaram por GET. Hoje exibiu somente a tarefa pendente do dia; Próximas, a futura; Concluídas, a concluída; Todas as tarefas, as quatro.
+- Os quatro registros foram excluídos pelos botões da aplicação. Os cards desapareceram após a resposta e a coleção ficou vazia.
+- Um novo carregamento no navegador manteve a coleção vazia. Uma leitura independente na API confirmou HTTP 200 e **zero registros restantes**.
+- Desktop em 1280px e celular em 390 × 844px: navegação, cards e modal conferidos, sem rolagem horizontal. O modal tem rolagem interna.
+- Com o modal aberto havia exatamente um diálogo, fundo com `inert` e rolagem bloqueada. Tab/Shift+Tab permaneceram no diálogo; Escape fechou e devolveu o foco ao botão de origem.
+- A leitura do console na conferência final não apresentou erros ou avisos.
 
-Registrem aqui o resultado real da validação final, incluindo a data. Não marquem itens pendentes só porque os testes da camada de dados passaram.
+**Ocorrência observada:** houve timeouts do CrudCrud durante a sessão; o dashboard do serviço também retornou 504. A aplicação exibiu a mensagem de falha de carregamento. Após o serviço voltar a responder, foi possível concluir a leitura e a exclusão persistidas. Isso não foi ocultado por dados locais. Falhas de POST/DELETE com preservação dos campos/registros foram cobertas pelos testes automatizados, sem afirmar que todos esses cenários foram induzidos no backend real.
+
+### Evidências visuais
+
+As capturas mostram registros descartáveis durante o teste; eles foram removidos ao final.
+
+- [Coleção real no desktop](evidencias/desktop.jpg)
+- [Interface em celular](evidencias/celular.jpg)
+- [Modal em celular](evidencias/modal-celular.jpg)
+- [Coleção vazia após exclusão e recarregamento](evidencias/apos-exclusao.jpg)
+
+### Histórico colaborativo
+
+| Integrante | Branch preservada | Conta associada aos commits | Integração |
+| --- | --- | --- | --- |
+| Gabriel | `codex/gabriel` | `Gabriel-Apolinario01` | Base no merge `83536f8`; revisão e documentação final em sua branch. |
+| Felipe | `codex/felipe` | `Felipenar-x` | PR #1, merge `21db979`. |
+| Leonardo | `codex/leonardo` | `Nicleo1112` | PR #2, merge `6fb422b`. |
+
+A associação de autoria foi conferida pela API do GitHub. O repositório está público. Os merges anteriores foram mantidos e os ajustes finais de Gabriel seguem o mesmo fluxo de branch individual e merge para a `main`, sem squash, rebase ou force push.
+
+## Conferência da entrega
+
+- [x] As três contribuições possuem alterações e commits em branches individuais.
+- [x] Os merges de Gabriel, Felipe e Leonardo permanecem no histórico.
+- [x] Instalação, lint, 62 testes e build aprovados.
+- [x] Contexto, serviço, páginas, cards, formulário e modal funcionam juntos.
+- [x] GET/POST/DELETE conferidos com CrudCrud real e persistência após recarregar.
+- [x] Três gatilhos, bloqueio do fundo, foco e responsividade conferidos.
+- [x] Cenários de falha cobertos pelos testes automatizados; instabilidade real de GET observada.
+- [x] `.env`, endpoint temporário, dependências e build não fazem parte dos arquivos versionados.
+- [x] Documentação atualizada e evidências registradas.
+- [x] Repositório público e histórico dos integrantes preservado.
+- [ ] Gabriel envia uma única vez o link no ambiente da faculdade, até **09/11/2026**.
+
+A publicação no GitHub não realiza a entrega na plataforma da faculdade. Antes da demonstração, confira a validade e o limite do endpoint; se necessário, gere outro em CrudCrud, atualize `.env`, reinicie `npm run dev` e repita cadastro/exclusão. Os dados do endpoint temporário não constituem uma base permanente.
+
+## Etapas anteriores
+
+- **Gabriel:** base e dados; 23 testes em dois arquivos. A validação inicial utilizava respostas HTTP simuladas.
+- **Felipe:** formulário e modal; 21 testes acrescentados, totalizando 44. A prévia local anterior usava API temporária em memória.
+- **Leonardo:** cards, páginas e integração visual; 18 testes acrescentados, totalizando os 62 da versão integrada.
+
+Essas etapas são registros históricos; as pendências de integração nelas descritas foram resolvidas pela versão revisada acima.

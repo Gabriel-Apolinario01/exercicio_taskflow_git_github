@@ -3,7 +3,7 @@
 Atividade de Desenvolvimento Mobile: desenvolvimento colaborativo com React, TypeScript, Git e GitHub.
 Professor: José Carmino Gomes Jr. • Grupo: Gabriel, Leonardo e Felipe.
 
-**Situação desta branch (`codex/felipe`):** base comum e camada de dados de Gabriel disponíveis; TaskForm e TaskModal implementados e testados. A interface de Leonardo e a ligação dos três botões ao modal ainda precisam ser desenvolvidas. Os componentes de Felipe estão prontos para revisão e merge; esta etapa não é a entrega final do grupo.
+**Versão integrada:** as contribuições de Gabriel, Felipe e Leonardo estão reunidas na `main`. A aplicação permite listar, cadastrar e excluir tarefas no CrudCrud, navegar pelas quatro páginas e abrir um único modal pelos botões do Header, da Sidebar e de Todas as tarefas. Consulte o [registro de validação](docs/VALIDACAO.md) para os resultados e os limites dos testes.
 
 ## Divisão do trabalho
 
@@ -19,7 +19,7 @@ Professor: José Carmino Gomes Jr. • Grupo: Gabriel, Leonardo e Felipe.
 - [Parte de Gabriel e integração final](docs/GABRIEL.md)
 - [Verificação e situação da entrega](docs/VALIDACAO.md)
 
-Leonardo e Felipe devem criar suas próprias branches a partir da `main`, desenvolver sua parte e publicar seus próprios commits. As branches individuais devem permanecer no repositório depois dos merges.
+As três branches individuais e seus commits foram preservados. A base de Gabriel entrou pelo merge `83536f8`; o formulário/modal de Felipe, pelo [PR #1](https://github.com/Gabriel-Apolinario01/exercicio_taskflow_git_github/pull/1); e a interface de Leonardo, pelo [PR #2](https://github.com/Gabriel-Apolinario01/exercicio_taskflow_git_github/pull/2). Gabriel revisou a integração e registrou a validação final em sua branch. Mantenham as branches depois dos merges.
 
 ## Executar
 
@@ -61,7 +61,7 @@ As variáveis `VITE_` fazem parte do código enviado ao navegador. O `.env` fica
 npm run check
 ```
 
-O comando executa ESLint, os testes Vitest e a compilação TypeScript/Vite. Os testes usam respostas simuladas da API e não consomem o limite do CrudCrud. O formulário e o modal também foram conferidos em uma prévia local com API de teste. Ainda é necessário testar o fluxo completo com endpoint CrudCrud real após a ligação da interface e os merges.
+O comando executa ESLint, 62 testes Vitest e a compilação TypeScript/Vite. Os testes automatizados usam respostas simuladas da API e não consomem o limite do CrudCrud. A conferência manual com API real é registrada separadamente em [VALIDACAO.md](docs/VALIDACAO.md).
 
 Comandos individuais: `npm run lint`, `npm test`, `npm run build` e `npm run preview`.
 
@@ -72,7 +72,7 @@ App
 └── BrowserRouter
     └── TarefasProvider: tarefas, carregando, erro, adicionarTarefa, removerTarefa
         └── Routes
-            └── Layout: Sidebar + Header + Outlet + um TaskModal (após integração)
+            └── Layout: Sidebar + Header + Outlet + um TaskModal
 
 TaskModal → TaskForm → aoSalvar → adicionarTarefa → tarefaService → CrudCrud
 Tasks → TaskList → TaskCard → aoExcluir → removerTarefa → tarefaService → CrudCrud
@@ -80,7 +80,14 @@ Tasks → TaskList → TaskCard → aoExcluir → removerTarefa → tarefaServic
 
 O Layout controla apenas a apresentação do modal. A coleção e as operações pertencem ao contexto. Os componentes visuais não fazem requisições HTTP.
 
-As rotas são `/`, `/proximas`, `/tarefas` e `/concluidas`. Nesta base, Hoje, Próximas e Concluídas têm a estrutura inicial da aula; Todas as tarefas já consome o contexto e apresenta carregamento, erro e um resumo simples. Leonardo completará a representação e as ações, incluindo a renderização de uma única instância do TaskModal já implementado por Felipe. Os botões de cadastro ainda não estão ligados na aplicação principal.
+| Página | Rota | Conteúdo |
+| --- | --- | --- |
+| Hoje | `/` | Tarefas pendentes com prazo igual à data local atual. |
+| Próximas | `/proximas` | Tarefas pendentes com prazo posterior à data local atual. |
+| Todas as tarefas | `/tarefas` | Coleção completa, inclusive atrasadas, concluídas e sem prazo. |
+| Concluídas | `/concluidas` | Registros persistidos com `concluida: true`. |
+
+Todas as páginas reutilizam TaskList/TaskCard e o mesmo contexto, com carregamento, vazio e erro. A criação aguarda a API antes de fechar o modal; a exclusão aguarda a API antes de retirar o card. Uma falha preserva os dados do formulário ou a tarefa existente.
 
 ## Escopo das aulas
 
@@ -88,4 +95,4 @@ Referências fornecidas ao grupo: `exercicio_taskflow_git_github.pdf`, `aula_06_
 
 O fluxo implementado no material é GET, POST e DELETE de tarefas, com um modal compartilhado. Edição, alteração de conclusão via PUT, projetos, preferências, busca avançada e notificações aparecem no protótipo ou como evoluções; não são apresentados aqui como requisitos já implementados. Evitem botões sem comportamento.
 
-Entrega: **09/11/2026**, por um integrante, com o link deste repositório. Antes de entregar, a `main` precisa conter as três contribuições integradas e verificadas, com histórico de commits e merges disponível.
+Entrega: **09/11/2026**, por um integrante, com o link deste repositório. Gabriel é o responsável pela integração e pela entrega única. A publicação no GitHub não substitui o envio do link no ambiente da faculdade. Antes da apresentação, obtenham um endpoint CrudCrud válido, pois o utilizado nos testes é temporário.
