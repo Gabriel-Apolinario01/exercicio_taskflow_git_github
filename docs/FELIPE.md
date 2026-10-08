@@ -2,6 +2,18 @@
 
 Sua branch é `codex/felipe`. Sua parte fica concentrada em TaskForm e TaskModal. Gabriel já implementou `adicionarTarefa` e Leonardo ficará responsável por abrir seu modal na interface.
 
+## Implementação disponível em 08/10/2026
+
+Os seis arquivos descritos neste roteiro estão implementados nesta branch. O formulário controla os campos, valida o título, bloqueia envio duplicado e preserva o preenchimento em falhas. O modal aguarda `adicionarTarefa`, fecha somente após sucesso e trata X, Cancelar, Escape, foco e bloqueio do fundo.
+
+O modal usa um portal para `document.body`, mantendo o overlay fora do root da aplicação. Enquanto aberto, aplica `inert` aos elementos de fundo e impede rolagem, restaurando os valores anteriores na limpeza do efeito. Os componentes mantêm as props combinadas; não foi necessário alterar Layout, Header, Sidebar ou App.
+
+Foram acrescentados 21 testes: 9 do formulário e 12 do modal, utilizando o contexto real e simulando apenas o serviço HTTP nos testes de integração. A prévia temporária no navegador confirmou sucesso, falha e nova tentativa, foco circular, Escape e layout com rolagem interna em 390px. Ela não faz parte dos arquivos publicados.
+
+A ligação dos três botões ao modal continua atribuída a Leonardo. A autenticação usada para publicar deve ser `Felipenar-x`, com a autoria associada ao endereço público `199274118+Felipenar-x@users.noreply.github.com`.
+
+As seções abaixo preservam o roteiro e os critérios da contribuição para revisão do grupo.
+
 ## Começar
 
 Você precisa ter acesso de colaborador ao repositório e usar sua própria conta GitHub. Caso falte acesso, envie seu usuário GitHub ao Gabriel para receber o convite.

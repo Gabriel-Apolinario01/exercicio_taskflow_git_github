@@ -13,6 +13,17 @@ Os testes cobrem GET/POST/DELETE, configuração inválida, resposta inválida, 
 
 **Limite desta validação:** as respostas HTTP dos testes são simuladas. Nenhum endpoint real do CrudCrud foi fornecido/configurado nesta etapa. Não foi validado ainda o fluxo visual de cadastrar e excluir com backend real, porque TaskForm/TaskModal e TaskCard/TaskList pertencem às contribuições que faltam. A base não é a aplicação final do grupo.
 
+## Etapa de Felipe - 08/10/2026
+
+- TaskForm e TaskModal implementados em `codex/felipe`, sem modificar os arquivos atribuídos a Leonardo.
+- 21 testes acrescentados: 9 de formulário e 12 de modal; 44 testes no projeto, incluindo os 23 da base.
+- Testes verificam campos, limites, título inválido, cancelamento, duplicação de envio, falha e nova tentativa, fechamento após sucesso, atualização do contexto, foco e restauração do fundo.
+- Prévia local no navegador: cadastro com atualização da coleção, falha sem apagar campos, nova tentativa bem-sucedida, Tab/Shift+Tab e Escape conferidos.
+- Layout do modal conferido em desktop e 390px, com rolagem interna e sem rolagem horizontal.
+- A API da prévia era temporária, local e em memória; nenhum dado foi enviado ao CrudCrud real.
+
+**Pendente:** merge desta contribuição, ligação de uma única instância do modal no Layout e dos três botões por Leonardo, além da verificação final com um endpoint CrudCrud válido. O build atual valida os arquivos TypeScript; os componentes do modal só entrarão na interface principal quando forem importados pelo Layout.
+
 ## Conferência após os merges dos colegas
 
 - [ ] Todos fizeram alterações reais e commits próprios em suas branches.

@@ -1,0 +1,43 @@
+.task-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, .52);
+  overscroll-behavior: contain;
+}
+.task-modal__content {
+  position: relative;
+  width: min(100%, 640px);
+  min-width: 0;
+  max-height: calc(100vh - 48px);
+  max-height: calc(100dvh - 48px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: 0 24px 80px rgba(15, 23, 42, .24);
+}
+.task-modal__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  z-index: 1;
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 10px;
+  background: var(--surface);
+  color: var(--muted);
+}
+.task-modal__close:hover:not(:disabled) { color: var(--text); background: var(--background); }
+@media (max-width: 560px) {
+  .task-modal { align-items: end; padding: 12px; }
+  .task-modal__content { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); }
+  .task-modal__close { top: 12px; right: 12px; }
+}

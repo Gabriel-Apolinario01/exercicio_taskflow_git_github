@@ -1,0 +1,126 @@
+import { useId, useRef, useState } from 'react';
+import type { FormEvent } from 'react';
+import { AlertCircle, LoaderCircle, Plus } from 'lucide-react';
+import type { NovaTarefa, Prioridade } from '../../types/Tarefa';
+import './TaskForm.css';
+
+type TaskFormProps = {
+  aoSalvar: (tarefa: NovaTarefa) => Promise<void>;
+  aoCancelar: () => void;
+};
+
+const estadoInicial: NovaTarefa = {
+  titulo: '', descricao: '', data: '', prioridade: 'medium', projeto: '', concluida: false,
+};
+
+export function TaskForm({ aoSalvar, aoCancelar }: Readonly<TaskFormProps>) {
+  const [formulario, setFormulario] = useState<NovaTarefa>(estadoInicial);
+  const [salvando, setSalvando] = useState(false);
+  const [erro, setErro] = useState('');
+  const [tituloInvalido, setTituloInvalido] = useState(false);
+  const envioEmAndamento = useRef(false);
+  const tituloRef = useRef<HTMLInputElement>(null);
+  const id = useId();
+
+  function alterarCampo<K extends keyof NovaTarefa>(campo: K, valor: NovaTarefa[K]) {
+    setFormulario((atual) => ({ ...atual, [campo]: valor }));
+    if (campo === 'titulo') setTituloInvalido(false);
+    setErro('');
+  }
+
+  async function enviarFormulario(evento: FormEvent<HTMLFormElement>) {
+    evento.preventDefault();
+    if (envioEmAndamento.current) return;
+
+    const titulo = formulario.titulo.trim();
+    if (!titulo) {
+      setTituloInvalido(true);
+      setErro('Informe um título para a tarefa.');
+      tituloRef.current?.focus();
+      return;
+    }
+
+    envioEmAndamento.current = true;
+    setSalvando(true);
+    setErro('');
+    try {
+      await aoSalvar({ ...formulario, titulo, projeto: formulario.projeto.trim() });
+      setFormulario(estadoInicial);
+    } catch (causa) {
+      setErro(causa instanceof Error && causa.message
+        ? causa.message : 'Não foi possível salvar a tarefa. Tente novamente.');
+    } finally {
+      envioEmAndamento.current = false;
+      setSalvando(false);
+    }
+  }
+
+  return (
+    <form className="task-form" onSubmit={enviarFormulario} aria-busy={salvando}>
+      <div className="task-form__heading">
+        <span className="task-form__icon"><Plus size={22} aria-hidden="true" /></span>
+        <h2>Nova tarefa</h2>
+        <p>Organize o próximo passo e deixe o restante com o TaskFlow.</p>
+      </div>
+
+      <fieldset className="task-form__fields" disabled={salvando}>
+        <legend className="task-form__sr-only">Dados da nova tarefa</legend>
+        <label htmlFor={`${id}-titulo`}>Título <span aria-hidden="true">*</span></label>
+        <input
+          ref={tituloRef} id={`${id}-titulo`} name="titulo" required maxLength={100}
+          value={formulario.titulo} placeholder="Ex.: Revisar proposta comercial"
+          onChange={(evento) => alterarCampo('titulo', evento.target.value)}
+          aria-invalid={tituloInvalido || undefined}
+          aria-describedby={tituloInvalido ? `${id}-erro` : undefined}
+        />
+
+        <label htmlFor={`${id}-descricao`}>Descrição <span className="task-form__optional">Opcional</span></label>
+        <textarea
+          id={`${id}-descricao`} name="descricao" rows={3} maxLength={400}
+          value={formulario.descricao} placeholder="Adicione contexto ou observações"
+          onChange={(evento) => alterarCampo('descricao', evento.target.value)}
+          aria-describedby={`${id}-contador`}
+        />
+        <span className="task-form__counter" id={`${id}-contador`}>{formulario.descricao.length}/400 caracteres</span>
+
+        <div className="task-form__row">
+          <div className="task-form__field">
+            <label htmlFor={`${id}-data`}>Prazo <span className="task-form__optional">Opcional</span></label>
+            <input
+              id={`${id}-data`} name="data" type="date" value={formulario.data}
+              onChange={(evento) => alterarCampo('data', evento.target.value)}
+            />
+          </div>
+          <div className="task-form__field">
+            <label htmlFor={`${id}-prioridade`}>Prioridade</label>
+            <select
+              id={`${id}-prioridade`} name="prioridade" value={formulario.prioridade}
+              onChange={(evento) => alterarCampo('prioridade', evento.target.value as Prioridade)}
+            >
+              <option value="high">Alta</option>
+              <option value="medium">Média</option>
+              <option value="low">Baixa</option>
+            </select>
+          </div>
+        </div>
+
+        <label htmlFor={`${id}-projeto`}>Projeto <span className="task-form__optional">Opcional</span></label>
+        <input
+          id={`${id}-projeto`} name="projeto" value={formulario.projeto}
+          placeholder="Ex.: Projeto Atlas"
+          onChange={(evento) => alterarCampo('projeto', evento.target.value)}
+        />
+      </fieldset>
+
+      {erro && <p className="task-form__error" role="alert" id={`${id}-erro`}><AlertCircle size={18} aria-hidden="true" />{erro}</p>}
+      <div className="task-form__actions">
+        <button className="task-form__cancel" type="button" onClick={aoCancelar} disabled={salvando}>Cancelar</button>
+        <button className="task-form__submit" type="submit" disabled={salvando}>
+          {salvando ? <LoaderCircle className="task-form__spinner" size={17} aria-hidden="true" /> : <Plus size={17} aria-hidden="true" />}
+          {salvando ? 'Salvando...' : 'Criar tarefa'}
+        </button>
+      </div>
+      <span className="task-form__sr-only" role="status">{salvando ? 'Salvando tarefa. Aguarde a conclusão.' : ''}</span>
+    </form>
+  );
+}

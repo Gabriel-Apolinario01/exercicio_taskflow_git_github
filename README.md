@@ -3,7 +3,7 @@
 Atividade de Desenvolvimento Mobile: desenvolvimento colaborativo com React, TypeScript, Git e GitHub.
 Professor: José Carmino Gomes Jr. • Grupo: Gabriel, Leonardo e Felipe.
 
-**Situação:** base comum reconstruída a partir das aulas e camada de dados de Gabriel implementada. A interface de tarefas de Leonardo e o formulário/modal de Felipe ainda precisam ser desenvolvidos e integrados. Esta etapa não é a entrega final do grupo.
+**Situação desta branch (`codex/felipe`):** base comum e camada de dados de Gabriel disponíveis; TaskForm e TaskModal implementados e testados. A interface de Leonardo e a ligação dos três botões ao modal ainda precisam ser desenvolvidas. Os componentes de Felipe estão prontos para revisão e merge; esta etapa não é a entrega final do grupo.
 
 ## Divisão do trabalho
 
@@ -61,7 +61,7 @@ As variáveis `VITE_` fazem parte do código enviado ao navegador. O `.env` fica
 npm run check
 ```
 
-O comando executa ESLint, os testes Vitest e a compilação TypeScript/Vite. Os testes atuais usam respostas simuladas da API e não consomem o limite do CrudCrud. Também é necessário testar o fluxo integrado no navegador com endpoint real depois das partes de Leonardo e Felipe.
+O comando executa ESLint, os testes Vitest e a compilação TypeScript/Vite. Os testes usam respostas simuladas da API e não consomem o limite do CrudCrud. O formulário e o modal também foram conferidos em uma prévia local com API de teste. Ainda é necessário testar o fluxo completo com endpoint CrudCrud real após a ligação da interface e os merges.
 
 Comandos individuais: `npm run lint`, `npm test`, `npm run build` e `npm run preview`.
 
@@ -80,7 +80,7 @@ Tasks → TaskList → TaskCard → aoExcluir → removerTarefa → tarefaServic
 
 O Layout controla apenas a apresentação do modal. A coleção e as operações pertencem ao contexto. Os componentes visuais não fazem requisições HTTP.
 
-As rotas são `/`, `/proximas`, `/tarefas` e `/concluidas`. Nesta base, Hoje, Próximas e Concluídas têm a estrutura inicial da aula; Todas as tarefas já consome o contexto e apresenta carregamento, erro e um resumo simples. Leonardo completará a representação e as ações. O cadastro depende da implementação de Felipe.
+As rotas são `/`, `/proximas`, `/tarefas` e `/concluidas`. Nesta base, Hoje, Próximas e Concluídas têm a estrutura inicial da aula; Todas as tarefas já consome o contexto e apresenta carregamento, erro e um resumo simples. Leonardo completará a representação e as ações, incluindo a renderização de uma única instância do TaskModal já implementado por Felipe. Os botões de cadastro ainda não estão ligados na aplicação principal.
 
 ## Escopo das aulas
 
