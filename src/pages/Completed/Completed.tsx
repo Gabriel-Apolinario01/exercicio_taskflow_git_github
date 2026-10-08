@@ -1,9 +1,14 @@
+import { useTarefas } from '../../contexts/TarefasContext';
+import { TaskPage } from '../TaskPage';
+
 export function Completed() {
+  const { tarefas, carregando, erro, removerTarefa } = useTarefas();
+
   return (
-    <section>
-      <p className="page-eyebrow">CAMINHO PERCORRIDO</p>
-      <h1>Concluídas</h1>
-      <p>Tarefas que já foram finalizadas.</p>
-    </section>
+    <TaskPage
+      titulo="Concluídas" chamada="CAMINHO PERCORRIDO" descricao="Cada tarefa finalizada é um passo adiante."
+      tarefas={tarefas.filter((tarefa) => tarefa.concluida)}
+      carregando={carregando} erro={erro} aoExcluir={removerTarefa}
+    />
   );
 }
