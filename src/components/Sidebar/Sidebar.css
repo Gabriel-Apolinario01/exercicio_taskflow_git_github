@@ -3,15 +3,22 @@
 .sidebar__brand strong { display: block; font-size: 1.2rem; letter-spacing: -.035em; }
 .sidebar__brand div > span { display: block; margin-top: 2px; color: var(--muted); font-size: .7rem; }
 .sidebar__logo { display: grid; place-items: center; width: 42px; height: 42px; border-radius: 13px; background: var(--primary); color: white; }
-.sidebar__label { margin: 30px 12px -12px; font-size: .65rem; font-weight: 700; letter-spacing: .14em; }
+.sidebar__new { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 11px 16px; border: 0; border-radius: 9px; background: var(--primary); color: white; font-size: .85rem; font-weight: 600; }
+.sidebar__new:hover { filter: brightness(.92); }
+.sidebar__label { margin: 8px 12px -12px; font-size: .65rem; font-weight: 700; letter-spacing: .14em; }
 .sidebar__nav { display: grid; gap: 7px; }
 .sidebar__link { display: flex; align-items: center; gap: 12px; padding: 13px 12px; color: var(--muted); border-radius: 9px; text-decoration: none; font-size: .875rem; }
 .sidebar__link:hover { background: var(--background); color: var(--text); }
 .sidebar__link--active, .sidebar__link--active:hover { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
 .sidebar__footer { margin: auto 12px 0; padding-top: 28px; font-size: .75rem; }
+.sidebar__footer > span { font-size: .65rem; }
 @media (max-width: 760px) {
-  .sidebar { padding: 20px; gap: 20px; border-right: 0; border-bottom: 1px solid var(--border); }
-  .sidebar__nav { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .sidebar { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; padding: 20px; gap: 20px 12px; border-right: 0; border-bottom: 1px solid var(--border); }
+  .sidebar__brand { gap: 9px; }
+  .sidebar__brand div > span { display: none; }
+  .sidebar__logo { width: 34px; height: 34px; border-radius: 10px; flex-shrink: 0; }
+  .sidebar__nav { grid-column: 1 / -1; grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .sidebar__label, .sidebar__footer { display: none; }
   .sidebar__link { padding: 10px; font-size: .8rem; }
 }
+@media (max-width: 380px) { .sidebar__brand strong { font-size: 1.05rem; } .sidebar__new { padding-inline: 10px; font-size: .8rem; } }

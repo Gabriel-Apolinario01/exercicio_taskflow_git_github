@@ -1,4 +1,4 @@
-import { CalendarDays, CircleCheckBig, Inbox, Layers, Sun } from 'lucide-react';
+import { CalendarDays, CircleCheckBig, Inbox, Layers, Plus, Sun } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -9,13 +9,16 @@ const itensMenu = [
   { titulo: 'Concluídas', caminho: '/concluidas', icone: CircleCheckBig },
 ];
 
-export function Sidebar() {
+type SidebarProps = { aoNovaTarefa: () => void };
+
+export function Sidebar({ aoNovaTarefa }: Readonly<SidebarProps>) {
   return (
     <aside className="sidebar">
       <div className="sidebar__brand">
         <span className="sidebar__logo"><Layers size={23} aria-hidden="true" /></span>
         <div><strong>TaskFlow</strong><span>Organize. Priorize. Faça.</span></div>
       </div>
+      <button className="sidebar__new" type="button" onClick={aoNovaTarefa}><Plus size={18} aria-hidden="true" />Nova tarefa</button>
       <p className="sidebar__label">MEU ESPAÇO</p>
       <nav className="sidebar__nav" aria-label="Navegação principal">
         {itensMenu.map(({ titulo, caminho, icone: Icone }) => (
@@ -24,7 +27,7 @@ export function Sidebar() {
           </NavLink>
         ))}
       </nav>
-      <p className="sidebar__footer">Gerenciador de tarefas</p>
+      <p className="sidebar__footer">Um passo de cada vez.<br /><span>Organize o que importa para você.</span></p>
     </aside>
   );
 }
