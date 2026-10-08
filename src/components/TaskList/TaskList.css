@@ -1,0 +1,7 @@
+.task-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; padding: 0; margin: 0; list-style: none; }
+.task-list > li { min-width: 0; }
+.task-list__empty { padding: 56px 24px; border: 1px dashed var(--border); border-radius: var(--radius); background: var(--surface); text-align: center; }
+.task-list__empty-icon { display: inline-grid; place-items: center; width: 64px; height: 64px; border-radius: 20px; background: var(--primary-soft); color: var(--primary); }
+.task-list__empty h2 { margin: 20px 0 8px; font-size: 1.05rem; }
+.task-list__empty p { margin: 0; font-size: .875rem; }
+@media (max-width: 1100px) { .task-list { grid-template-columns: minmax(0, 1fr); } }

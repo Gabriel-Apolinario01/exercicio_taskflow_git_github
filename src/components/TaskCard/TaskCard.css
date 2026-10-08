@@ -1,0 +1,23 @@
+.task-card { display: flex; flex-direction: column; min-width: 0; height: 100%; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.task-card__top { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+.task-card__priority { display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: 6px; font-size: .7rem; font-weight: 600; }
+.task-card__priority > span { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.task-card__priority--high { color: var(--danger); background: #fff1f3; }
+.task-card__priority--medium { color: #8a550c; background: #fff5dd; }
+.task-card__priority--low { color: #256c54; background: #eaf7f0; }
+.task-card__status { display: inline-flex; align-items: center; gap: 6px; color: var(--muted); font-size: .75rem; }
+.task-card--completed .task-card__status { color: #256c54; }
+.task-card__title { margin: 20px 0 8px; font-size: 1.05rem; overflow-wrap: anywhere; }
+.task-card__description { margin: 0 0 24px; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .85rem; }
+.task-card__details { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin: auto 0 0; }
+.task-card__details dt { display: flex; align-items: center; gap: 6px; color: var(--muted); font-size: .7rem; }
+.task-card__details dd { margin: 5px 0 0; font-size: .8rem; overflow-wrap: anywhere; }
+.task-card__footer { display: flex; justify-content: flex-end; margin-top: 20px; padding-top: 12px; border-top: 1px solid var(--border); }
+.task-card__delete { display: inline-flex; align-items: center; justify-content: center; gap: 7px; min-height: 44px; padding: 8px 12px; border: 0; border-radius: 8px; color: var(--danger); background: transparent; font-size: .8rem; }
+.task-card__delete:hover:not(:disabled) { background: #fff1f3; }
+.task-card__delete:disabled { cursor: not-allowed; }
+.task-card[aria-busy="true"] .task-card__delete { cursor: wait; }
+.task-card__spinner { animation: task-card-spin 1s linear infinite; }
+@keyframes task-card-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .task-card__spinner { animation: none; } }
+@media (max-width: 480px) { .task-card { padding: 20px; } }
