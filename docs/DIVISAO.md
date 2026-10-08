@@ -64,7 +64,7 @@ type TaskFormProps = {
 type TaskModalProps = { aberto: boolean; aoFechar: () => void };
 ```
 
-Utilizem exports nomeados: `export function TaskForm`, `TaskModal`, `TaskCard`, etc. Os arquivos seguem o padrão `src/components/Nome/Nome.tsx` com CSS na mesma pasta. O tipo `LayoutContext` já está declarado em `Layout.tsx`; Leonardo fará a ligação do `Outlet`.
+Utilizem exports nomeados: `export function TaskForm`, `TaskModal`, `TaskCard`, etc. Os arquivos seguem o padrão `src/components/Nome/Nome.tsx` com CSS na mesma pasta. O tipo `LayoutContext` está declarado em `Layout.tsx`; Leonardo implementou a ligação do `Outlet`.
 
 ## Como as branches se encontram
 
@@ -76,6 +76,10 @@ Utilizem exports nomeados: `export function TaskForm`, `TaskModal`, `TaskCard`, 
 6. Gabriel revisa e faz merge da contribuição de Leonardo na `main`.
 7. O grupo verifica o fluxo completo e apenas Gabriel envia o link na entrega.
 
-As etapas 4 a 7 dependem das implementações dos colegas. Não estão concluídas pela publicação da base.
+## Situação após a integração — 08/10/2026
+
+O fluxo acima registra o planejamento original. As contribuições foram publicadas e integradas: base de Gabriel pelo merge `83536f8`, Felipe pelo PR #1 (`21db979`) e Leonardo pelo PR #2 (`6fb422b`). O merge do PR #1 foi realizado com a conta de Felipe; o do PR #2, com a conta de Gabriel. A autoria dos commits de cada integrante permanece preservada.
+
+Gabriel revisou a versão reunida, executou as verificações finais e atualizou a documentação em `codex/gabriel`. Os resultados estão em [VALIDACAO.md](VALIDACAO.md). O envio único do link no ambiente da faculdade continua a cargo de Gabriel, até 09/11/2026.
 
 Usem merge com histórico preservado. Não usem squash, rebase ou force push para juntar as contribuições desta atividade. Não apaguem as branches após o merge.

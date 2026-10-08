@@ -1,6 +1,6 @@
 # Felipe: formulário e modal de criação
 
-Sua branch é `codex/felipe`. Sua parte fica concentrada em TaskForm e TaskModal. Gabriel já implementou `adicionarTarefa` e Leonardo ficará responsável por abrir seu modal na interface.
+Branch: `codex/felipe`. A contribuição de TaskForm e TaskModal foi concluída e integrada pelo PR #1, merge `21db979`. Leonardo já conectou o modal à interface pelo PR #2. Os roteiros abaixo ficam como registro da divisão original; não são tarefas ainda pendentes.
 
 ## Implementação disponível em 08/10/2026
 
@@ -10,7 +10,7 @@ O modal usa um portal para `document.body`, mantendo o overlay fora do root da a
 
 Foram acrescentados 21 testes: 9 do formulário e 12 do modal, utilizando o contexto real e simulando apenas o serviço HTTP nos testes de integração. A prévia temporária no navegador confirmou sucesso, falha e nova tentativa, foco circular, Escape e layout com rolagem interna em 390px. Ela não faz parte dos arquivos publicados.
 
-A ligação dos três botões ao modal continua atribuída a Leonardo. A autenticação usada para publicar deve ser `Felipenar-x`, com a autoria associada ao endereço público `199274118+Felipenar-x@users.noreply.github.com`.
+A ligação dos três botões ao modal foi concluída por Leonardo. Os commits `ab00158`, `45d53b6` e `d0a9e39` estão associados à conta `Felipenar-x` no GitHub. A validação da versão integrada está em [VALIDACAO.md](VALIDACAO.md).
 
 As seções abaixo preservam o roteiro e os critérios da contribuição para revisão do grupo.
 

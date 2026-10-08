@@ -1,89 +1,63 @@
 # Gabriel: dados e integração
 
-Branch de desenvolvimento: `codex/gabriel`.
+Branch de desenvolvimento: `codex/gabriel`. Conta GitHub: `Gabriel-Apolinario01`.
 
 ## Parte implementada
 
-- Base React + TypeScript + Vite, dependências, configuração de lint/testes/build e lockfile para instalação reproduzível.
-- Estrutura inicial de Layout, Header, Sidebar e quatro páginas, reconstruída porque o repositório só tinha um README.
-- `Tarefa`, `Prioridade` e `NovaTarefa`, com os campos usados pelo professor.
-- `tarefaService`: Axios, configuração `VITE_API_URL`, GET `/tarefas`, POST `/tarefas` sem `_id`, DELETE `/tarefas/:id`, timeout e validação das respostas.
-- `TarefasProvider` e `useTarefas`: uma coleção compartilhada, carregamento inicial, erros, criação e exclusão com atualização após a resposta da API.
-- Provider acima das rotas em App. Página Tasks já consome os dados em um resumo inicial que Leonardo substituirá por TaskList.
-- Testes de sucesso, falhas, preservação do estado, sincronização entre consumidores e limpeza do efeito.
-- Documentação do trabalho dos três integrantes.
-
-O formato e a separação de responsabilidades seguem os PDFs. A validação de configuração/resposta, cancelamento do GET, proteção contra resposta antiga e testes complementam os exemplos. Nenhum endpoint real ou dado pessoal foi adicionado ao repositório.
+- Base React + TypeScript + Vite, dependências, lint, testes, build e lockfile.
+- Estrutura comum reconstruída a partir das aulas, pois o repositório inicial continha somente README.
+- Tipos `Tarefa`, `Prioridade` e `NovaTarefa`.
+- `tarefaService`: Axios, `VITE_API_URL`, GET/POST/DELETE, timeout e validação das respostas.
+- `TarefasProvider` e `useTarefas`: coleção compartilhada, carregamento, erros e atualização após persistência.
+- Provider acima das rotas, utilizado pelas páginas de Leonardo e pelo modal de Felipe.
+- 23 testes da camada de dados, cobrindo sucesso, falhas, sincronização e limpeza dos efeitos.
+- Divisão do trabalho, revisão das contribuições, validação da aplicação integrada e documentação da entrega.
 
 ## Como explicar sua implementação
 
-1. App envolve as rotas em TarefasProvider. Assim, páginas e modal acessam o mesmo estado.
-2. O `useEffect` do provider chama `listarTarefas` ao montar. O serviço faz a requisição HTTP; o contexto guarda o retorno. A limpeza cancela a requisição e impede que respostas de um efeito antigo alterem a tela.
-3. Ao criar, TaskForm envia os campos para TaskModal; o modal chama `adicionarTarefa`. O contexto aguarda o POST, recebe o `_id` do CrudCrud e acrescenta a tarefa à lista. Se falhar, lança um erro que o formulário deve tratar; o modal não chega ao fechamento.
-4. Ao excluir, a ação percorre TaskCard, TaskList e a página até `removerTarefa`. Primeiro ocorre DELETE no backend; depois `filter` atualiza o estado. Se falhar, a tarefa continua visível e `erro` informa o problema.
-5. Layout não consulta a API e não guarda a coleção. Ele será responsável pela estrutura e pela apresentação de um único modal.
+1. App envolve as rotas em TarefasProvider; páginas e modal acessam o mesmo estado.
+2. O `useEffect` carrega a coleção pelo serviço. A limpeza cancela a requisição e impede respostas de um efeito antigo de alterarem a tela.
+3. TaskForm envia os campos para TaskModal, que chama `adicionarTarefa`. O contexto aguarda o POST, recebe o `_id` e inclui a tarefa. Só então o modal fecha. Uma falha mantém o formulário preenchido.
+4. A exclusão percorre TaskCard, TaskList e a página até `removerTarefa`. O contexto aguarda DELETE antes de remover o registro do estado. Se falhar, preserva a tarefa e expõe o erro.
+5. Layout controla a apresentação de um único modal e repassa a abertura aos três botões. Os componentes de interface não acessam a API diretamente.
 
-`filter` altera a coleção em memória; não apaga registros no backend. `useTarefas` acessa o contexto existente; não cria um estado separado por componente. `_id` é responsabilidade do CrudCrud.
+`filter` altera a coleção em memória; não apaga registros no backend. `useTarefas` acessa o contexto existente; não cria uma coleção separada por componente. O CrudCrud gera `_id`.
 
-## Integração das contribuições
+## Integração realizada em 08/10/2026
 
-Gabriel é o integrador. As próximas etapas dependem de Leonardo e Felipe publicarem seus próprios commits. Não faça a entrega final enquanto faltarem essas partes.
+| Etapa | Registro no histórico |
+| --- | --- |
+| Base e dados de Gabriel | Merge `83536f8` |
+| Formulário e modal de Felipe | PR #1, merge `21db979` |
+| Interface e páginas de Leonardo | PR #2, merge `6fb422b` |
+| Revisão e validação final de Gabriel | Commits posteriores em `codex/gabriel`, integrados por merge na `main` |
 
-Antes dos merges, confirme que ambos aceitaram convite de colaborador, usaram a própria identidade Git e enviaram branches com alterações reais. Não é necessário publicar o e-mail deles no README.
+Os dois PRs já estavam integrados quando começou a revisão final. Seus merges foram preservados. A revisão confirmou os contratos entre componentes, contexto e serviço; não exigiu reescrever a implementação dos colegas. Os resultados dos testes e as evidências visuais ficam em [VALIDACAO.md](VALIDACAO.md).
 
-Para cada contribuição, revise os arquivos e rode os testes na branch do colega antes do merge. Exemplo para Felipe, com sua árvore de trabalho limpa:
+## Para futuras correções
 
-```bash
-git status
-git fetch origin
-git switch --detach origin/codex/felipe
-npm ci
-npm run check
-```
-
-O estado detached serve apenas para revisão, sem commits. Se encontrar problema, peça ao colega a correção na branch dele. Depois de aprovado:
-
-```bash
-git switch main
-git pull --ff-only origin main
-git merge --no-ff origin/codex/felipe -m "integra formulario e modal desenvolvidos por Felipe"
-npm ci
-npm run check
-git push origin main
-```
-
-Se um comando falhar, pare e resolva antes do seguinte. Avise Leonardo para trazer a `main` à branch dele e terminar a ligação do modal. Em seguida, repita a revisão e a integração com `origin/codex/leonardo`:
+Desenvolva em `codex/gabriel`, com a árvore de trabalho limpa, trazendo a versão integrada antes de alterar arquivos:
 
 ```bash
 git fetch origin
-git switch --detach origin/codex/leonardo
-npm ci
-npm run check
-git switch main
-git pull --ff-only origin main
-git merge --no-ff origin/codex/leonardo -m "integra interface e navegacao desenvolvidas por Leonardo"
-npm ci
-npm run check
-git push origin main
-```
-
-Um conflito exige ler as duas alterações e manter os contratos combinados. Use `git status`, resolva os trechos marcados, adicione os arquivos resolvidos e finalize com `git merge --continue`. Se não for possível decidir corretamente, use `git merge --abort` e combine a solução antes de reiniciar o merge. Não faça force push nem apague a branch de ninguém.
-
-Ajustes de implementação feitos por você também pertencem a `codex/gabriel`, não à `main`:
-
-```bash
 git switch codex/gabriel
-git merge main
-# Desenvolver o ajuste, verificar, adicionar os arquivos e fazer commit.
+git merge origin/main
+# Alterar e conferir os arquivos.
+npm run check
+git add CAMINHOS_DOS_ARQUIVOS_ALTERADOS
+git commit -m "descreve a correcao efetivamente realizada"
 git push origin codex/gabriel
 git switch main
-git merge --no-ff codex/gabriel -m "integra ajustes de Gabriel"
+git pull --ff-only origin main
+git merge --no-ff codex/gabriel -m "integra correcao de Gabriel"
 git push origin main
 ```
 
-## Antes da entrega única
+Se algum comando falhar, resolva antes de continuar. Conflitos exigem comparar as alterações e preservar os contratos; não aceite automaticamente um lado inteiro. Não use force push, rebase ou squash para reescrever o histórico desta atividade. Mantenha as branches dos três integrantes.
 
-Confira [VALIDACAO.md](VALIDACAO.md), teste com endpoint CrudCrud válido e verifique o histórico:
+## Entrega única
+
+Gabriel deve enviar o link do repositório no ambiente da faculdade até **09/11/2026**. Isso não é feito automaticamente pelo GitHub. Antes de demonstrar a aplicação, configure um endpoint CrudCrud válido em `.env`, reinicie o Vite e repita um cadastro e uma exclusão, pois o serviço é temporário.
 
 ```bash
 git fetch origin
@@ -91,6 +65,4 @@ git branch -r
 git log --graph --oneline --decorate --all
 ```
 
-Devem existir `main`, `codex/gabriel`, `codex/leonardo` e `codex/felipe`, com commits reais e merges. Branches dos colegas só devem ser criadas por eles quando começarem sua implementação; uma branch vazia criada antecipadamente não resolve esse requisito.
-
-Gabriel fará a entrega única do link do repositório até **09/11/2026**, após a integração final. Confirmem que o professor consegue acessar o link. Publicar esta base no GitHub não equivale a enviar a atividade no ambiente da faculdade.
+Devem continuar disponíveis `main`, `codex/gabriel`, `codex/leonardo` e `codex/felipe`, com seus commits e merges.
