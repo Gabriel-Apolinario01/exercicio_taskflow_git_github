@@ -1,9 +1,16 @@
+import { useTarefas } from '../../contexts/TarefasContext';
+import { dataLocal } from '../dataLocal';
+import { TaskPage } from '../TaskPage';
+
 export function Upcoming() {
+  const { tarefas, carregando, erro, removerTarefa } = useTarefas();
+  const hoje = dataLocal();
+
   return (
-    <section>
-      <p className="page-eyebrow">OLHANDO ADIANTE</p>
-      <h1>Próximas</h1>
-      <p>Tarefas previstas para os próximos dias.</p>
-    </section>
+    <TaskPage
+      titulo="Próximas" chamada="OLHANDO ADIANTE" descricao="Um pouco de planejamento para os próximos dias."
+      tarefas={tarefas.filter((tarefa) => !tarefa.concluida && tarefa.data > hoje)}
+      carregando={carregando} erro={erro} aoExcluir={removerTarefa}
+    />
   );
 }
