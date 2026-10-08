@@ -1,0 +1,4 @@
+.tasks-page__summary { margin-top: 32px; padding: 28px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); }
+.tasks-page__summary h2 { margin-top: 0; font-size: 1.05rem; }
+.tasks-page__summary li { padding-block: 6px; overflow-wrap: anywhere; }
+.tasks-page__error { margin-top: 28px; padding: 16px 20px; color: var(--danger); background: #fff1f3; border: 1px solid #f7c8d0; border-radius: 10px; }
