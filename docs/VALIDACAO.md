@@ -1,6 +1,22 @@
 # Verificação do TaskFlow
 
-## Resultado final — 08/10/2026
+## Revisão visual e busca — 09/10/2026
+
+A revisão partiu da versão integrada `31fcde9`, em `codex/gabriel`. O CSS do repositório do professor foi incorporado como base visual; os componentes foram adaptados para a lista em linhas, o cabeçalho com busca e os campos do modelo, preservando contexto, modal e operações da atividade. Veja a origem e as adaptações em [REFERENCIA_VISUAL.md](REFERENCIA_VISUAL.md).
+
+| Verificação | Resultado |
+| --- | --- |
+| `npm run lint` | Aprovado. |
+| `npm test` | 64 testes aprovados em 7 arquivos. |
+| `npm run build` | TypeScript e build de produção Vite aprovados. |
+| Busca | Testes de título, descrição, projeto, acentos, maiúsculas, limpeza e combinação com o filtro da página aprovados. |
+| Arquitetura | Serviço HTTP e contexto preservados; Layout continua apresentando um único modal. |
+
+O comando `npm run check` concluiu as três verificações. A busca é local à coleção já carregada e não acrescenta operações de persistência.
+
+**Limite desta revisão:** a ferramenta de navegador falhou na inicialização. A comparação atual foi feita no TSX/CSS, sem nova inspeção renderizada, novas capturas ou repetição do teste com CrudCrud real. Os resultados e imagens de 08/10 abaixo são evidências históricas da integração anterior aos novos estilos, não uma validação visual desta revisão. A conferência renderizada do novo layout em desktop e celular permanece pendente.
+
+## Integração e teste com API real — 08/10/2026
 
 A versão integrada das contribuições de Gabriel, Felipe e Leonardo foi revisada em `codex/gabriel`, a partir da `main` no merge `6fb422b`. Não foram necessárias correções no código das contribuições. A documentação foi atualizada para refletir o estado consolidado, e as evidências desta validação foram acrescentadas pela branch de Gabriel.
 
@@ -39,7 +55,7 @@ Foi gerado um endpoint gratuito temporário no CrudCrud e configurado somente no
 
 ### Evidências visuais
 
-As capturas mostram registros descartáveis durante o teste; eles foram removidos ao final.
+As capturas mostram a aparência anterior à adaptação visual de 09/10 e registros descartáveis durante o teste; eles foram removidos ao final.
 
 - [Coleção real no desktop](evidencias/desktop.jpg)
 - [Interface em celular](evidencias/celular.jpg)
@@ -60,10 +76,11 @@ A associação de autoria foi conferida pela API do GitHub. O repositório está
 
 - [x] As três contribuições possuem alterações e commits em branches individuais.
 - [x] Os merges de Gabriel, Felipe e Leonardo permanecem no histórico.
-- [x] Instalação, lint, 62 testes e build aprovados.
+- [x] Instalação validada em 08/10; lint, 64 testes e build aprovados em 09/10.
 - [x] Contexto, serviço, páginas, cards, formulário e modal funcionam juntos.
-- [x] GET/POST/DELETE conferidos com CrudCrud real e persistência após recarregar.
-- [x] Três gatilhos, bloqueio do fundo, foco e responsividade conferidos.
+- [x] GET/POST/DELETE conferidos com CrudCrud real e persistência após recarregar em 08/10.
+- [x] Três gatilhos, bloqueio do fundo e foco cobertos novamente pelos testes automatizados em 09/10.
+- [ ] Conferir o novo layout renderizado em desktop e celular; a inspeção anterior de responsividade é de 08/10.
 - [x] Cenários de falha cobertos pelos testes automatizados; instabilidade real de GET observada.
 - [x] `.env`, endpoint temporário, dependências e build não fazem parte dos arquivos versionados.
 - [x] Documentação atualizada e evidências registradas.

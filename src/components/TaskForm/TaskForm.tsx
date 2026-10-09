@@ -1,6 +1,6 @@
 import { useId, useRef, useState } from 'react';
 import type { FormEvent } from 'react';
-import { AlertCircle, LoaderCircle, Plus } from 'lucide-react';
+import { AlertCircle, LoaderCircle } from 'lucide-react';
 import type { NovaTarefa, Prioridade } from '../../types/Tarefa';
 import './TaskForm.css';
 
@@ -57,11 +57,7 @@ export function TaskForm({ aoSalvar, aoCancelar }: Readonly<TaskFormProps>) {
 
   return (
     <form className="task-form" onSubmit={enviarFormulario} aria-busy={salvando}>
-      <div className="task-form__heading">
-        <span className="task-form__icon"><Plus size={22} aria-hidden="true" /></span>
-        <h2>Nova tarefa</h2>
-        <p>Organize o próximo passo e deixe o restante com o TaskFlow.</p>
-      </div>
+      <h2>Nova tarefa</h2>
 
       <fieldset className="task-form__fields" disabled={salvando}>
         <legend className="task-form__sr-only">Dados da nova tarefa</legend>
@@ -116,7 +112,7 @@ export function TaskForm({ aoSalvar, aoCancelar }: Readonly<TaskFormProps>) {
       <div className="task-form__actions">
         <button className="task-form__cancel" type="button" onClick={aoCancelar} disabled={salvando}>Cancelar</button>
         <button className="task-form__submit" type="submit" disabled={salvando}>
-          {salvando ? <LoaderCircle className="task-form__spinner" size={17} aria-hidden="true" /> : <Plus size={17} aria-hidden="true" />}
+          {salvando && <LoaderCircle className="task-form__spinner" size={17} aria-hidden="true" />}
           {salvando ? 'Salvando...' : 'Criar tarefa'}
         </button>
       </div>

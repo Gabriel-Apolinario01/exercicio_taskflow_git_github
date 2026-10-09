@@ -18,6 +18,7 @@ Professor: José Carmino Gomes Jr. • Grupo: Gabriel, Leonardo e Felipe.
 - [Roteiro de Felipe](docs/FELIPE.md)
 - [Parte de Gabriel e integração final](docs/GABRIEL.md)
 - [Verificação e situação da entrega](docs/VALIDACAO.md)
+- [Referência visual do professor e adaptações](docs/REFERENCIA_VISUAL.md)
 
 As três branches individuais e seus commits foram preservados. A base de Gabriel entrou pelo merge `83536f8`; o formulário/modal de Felipe, pelo [PR #1](https://github.com/Gabriel-Apolinario01/exercicio_taskflow_git_github/pull/1); e a interface de Leonardo, pelo [PR #2](https://github.com/Gabriel-Apolinario01/exercicio_taskflow_git_github/pull/2). Gabriel revisou a integração e registrou a validação final em sua branch. Mantenham as branches depois dos merges.
 
@@ -61,7 +62,7 @@ As variáveis `VITE_` fazem parte do código enviado ao navegador. O `.env` fica
 npm run check
 ```
 
-O comando executa ESLint, 62 testes Vitest e a compilação TypeScript/Vite. Os testes automatizados usam respostas simuladas da API e não consomem o limite do CrudCrud. A conferência manual com API real é registrada separadamente em [VALIDACAO.md](docs/VALIDACAO.md).
+O comando executa ESLint, 64 testes Vitest e a compilação TypeScript/Vite. Os testes automatizados usam respostas simuladas da API e não consomem o limite do CrudCrud. A conferência manual com API real é registrada separadamente em [VALIDACAO.md](docs/VALIDACAO.md).
 
 Comandos individuais: `npm run lint`, `npm test`, `npm run build` e `npm run preview`.
 
@@ -88,6 +89,14 @@ O Layout controla apenas a apresentação do modal. A coleção e as operações
 | Concluídas | `/concluidas` | Registros persistidos com `concluida: true`. |
 
 Todas as páginas reutilizam TaskList/TaskCard e o mesmo contexto, com carregamento, vazio e erro. A criação aguarda a API antes de fechar o modal; a exclusão aguarda a API antes de retirar o card. Uma falha preserva os dados do formulário ou a tarefa existente.
+
+A busca do cabeçalho filtra título, descrição e projeto dentro da página atual, ignorando maiúsculas e acentos. O termo fica no parâmetro `q` da URL; limpar a busca restaura a lista da página, e navegar pelo menu inicia a outra página sem esse termo. A busca não altera os registros nem faz novas requisições.
+
+## Referência visual
+
+O CSS do [TaskFlow do professor](https://github.com/prof-carmino-aulas/taskflow/tree/bfbd24f5cdb9df4432e2c7e68d41e6dcd7640f00) foi incorporado como base visual: cores, tipografia, menu lateral, cabeçalho com busca, lista em linhas e campos do formulário. As adaptações preservam a navegação no celular e o modal compartilhado da continuação da aula. A origem dos arquivos e as diferenças estão em [REFERENCIA_VISUAL.md](docs/REFERENCIA_VISUAL.md).
+
+A aplicação é escrita em **TypeScript (`.ts` e `.tsx`) com React**, usando CSS para os estilos. `eslint.config.js` é a configuração da ferramenta de análise; não representa uma troca da linguagem da aplicação.
 
 ## Escopo das aulas
 

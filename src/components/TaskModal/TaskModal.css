@@ -16,8 +16,8 @@
   max-height: calc(100dvh - 48px);
   overflow-y: auto;
   overscroll-behavior: contain;
-  border-radius: var(--radius);
-  background: var(--surface);
+  border-radius: 22px;
+  background: var(--color-surface);
   box-shadow: 0 24px 80px rgba(15, 23, 42, .24);
 }
 .task-modal__close {
@@ -32,12 +32,12 @@
   justify-content: center;
   border: 0;
   border-radius: 10px;
-  background: var(--surface);
-  color: var(--muted);
+  background: var(--color-surface);
+  color: var(--color-text-soft);
 }
-.task-modal__close:hover:not(:disabled) { color: var(--text); background: var(--background); }
+.task-modal__close:hover:not(:disabled) { color: var(--color-text); background: var(--color-surface-soft); }
 @media (max-width: 560px) {
-  .task-modal { align-items: end; padding: 12px; }
+  .task-modal { align-items: center; padding: 12px; }
   .task-modal__content { max-height: calc(100vh - 24px); max-height: calc(100dvh - 24px); }
   .task-modal__close { top: 12px; right: 12px; }
 }

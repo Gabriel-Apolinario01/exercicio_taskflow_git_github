@@ -1,4 +1,4 @@
-import { CalendarDays, CircleCheckBig, Inbox, Layers, Plus, Sun } from 'lucide-react';
+import { CalendarDays, CircleCheckBig, Inbox, Plus, Sun } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import './Sidebar.css';
 
@@ -15,11 +15,10 @@ export function Sidebar({ aoNovaTarefa }: Readonly<SidebarProps>) {
   return (
     <aside className="sidebar">
       <div className="sidebar__brand">
-        <span className="sidebar__logo"><Layers size={23} aria-hidden="true" /></span>
-        <div><strong>TaskFlow</strong><span>Organize. Priorize. Faça.</span></div>
+        <img src="https://kiro.dev/images/community/events/thumbnails/meetup2.svg" alt="TaskFlow" className="sidebar__logo" />
+        <div><strong>TaskFlow</strong><span>Gerenciador de tarefas</span></div>
       </div>
-      <button className="sidebar__new" type="button" onClick={aoNovaTarefa}><Plus size={18} aria-hidden="true" />Nova tarefa</button>
-      <p className="sidebar__label">MEU ESPAÇO</p>
+      <button className="sidebar__new-task" type="button" onClick={aoNovaTarefa}><Plus size={18} aria-hidden="true" />Nova tarefa</button>
       <nav className="sidebar__nav" aria-label="Navegação principal">
         {itensMenu.map(({ titulo, caminho, icone: Icone }) => (
           <NavLink key={caminho} to={caminho} end className={({ isActive }) => isActive ? 'sidebar__link sidebar__link--active' : 'sidebar__link'}>
@@ -27,7 +26,6 @@ export function Sidebar({ aoNovaTarefa }: Readonly<SidebarProps>) {
           </NavLink>
         ))}
       </nav>
-      <p className="sidebar__footer">Um passo de cada vez.<br /><span>Organize o que importa para você.</span></p>
     </aside>
   );
 }

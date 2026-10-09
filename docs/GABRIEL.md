@@ -12,6 +12,8 @@ Branch de desenvolvimento: `codex/gabriel`. Conta GitHub: `Gabriel-Apolinario01`
 - Provider acima das rotas, utilizado pelas páginas de Leonardo e pelo modal de Felipe.
 - 23 testes da camada de dados, cobrindo sucesso, falhas, sincronização e limpeza dos efeitos.
 - Divisão do trabalho, revisão das contribuições, validação da aplicação integrada e documentação da entrega.
+- Adaptação visual a partir do CSS do repositório do professor, mantendo a arquitetura da continuação da aula.
+- Busca por título, descrição e projeto no cabeçalho, com dois testes de integração adicionais.
 
 ## Como explicar sua implementação
 
@@ -33,6 +35,12 @@ Branch de desenvolvimento: `codex/gabriel`. Conta GitHub: `Gabriel-Apolinario01`
 | Revisão e validação final de Gabriel | Commits posteriores em `codex/gabriel`, integrados por merge na `main` |
 
 Os dois PRs já estavam integrados quando começou a revisão final. Seus merges foram preservados. A revisão confirmou os contratos entre componentes, contexto e serviço; não exigiu reescrever a implementação dos colegas. Os resultados dos testes e as evidências visuais ficam em [VALIDACAO.md](VALIDACAO.md).
+
+## Revisão de 09/10/2026
+
+O repositório do professor foi usado como referência direta para os estilos. A revisão em `codex/gabriel` adapta o cabeçalho, menu, lista e formulário, mantendo as contribuições já integradas e o histórico de autoria. Os detalhes estão em [REFERENCIA_VISUAL.md](REFERENCIA_VISUAL.md).
+
+A busca usa `useSearchParams`: o Header atualiza `q` na URL e TaskPage filtra as tarefas da página sem modificar o contexto ou fazer requisições. Lint, 64 testes e build passaram. A ferramenta de navegador não inicializou; a nova conferência visual ficou pendente e foi registrada em [VALIDACAO.md](VALIDACAO.md).
 
 ## Para futuras correções
 

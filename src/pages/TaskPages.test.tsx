@@ -51,16 +51,16 @@ describe('Páginas de tarefas', () => {
     vi.mocked(listarTarefas).mockReturnValue(new Promise((resolve) => { concluir = resolve; }));
     renderizar(caminho);
     expect(screen.getByRole('status')).toHaveTextContent('Carregando tarefas...');
-    expect(screen.queryByText('Nenhuma tarefa por aqui')).not.toBeInTheDocument();
+    expect(screen.queryByText('Nada por aqui')).not.toBeInTheDocument();
     await act(async () => { concluir([]); });
-    expect(screen.getByRole('status')).toHaveTextContent('Nenhuma tarefa por aqui');
+    expect(screen.getByRole('status')).toHaveTextContent('Nada por aqui');
   });
 
   it('mostra falha de carregamento sem afirmar que a coleção está vazia', async () => {
     vi.mocked(listarTarefas).mockRejectedValue(new Error('Sem rede'));
     renderizar();
     expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível carregar as tarefas');
-    expect(screen.queryByText('Nenhuma tarefa por aqui')).not.toBeInTheDocument();
+    expect(screen.queryByText('Nada por aqui')).not.toBeInTheDocument();
     expect(screen.queryByText('Carregando tarefas...')).not.toBeInTheDocument();
   });
 
@@ -89,6 +89,6 @@ describe('Páginas de tarefas', () => {
     expect(screen.getByRole('heading', { name: 'Prazo hoje' })).toBeInTheDocument();
     await act(async () => { concluir(); });
     expect(screen.queryByRole('article')).not.toBeInTheDocument();
-    expect(screen.getByRole('status')).toHaveTextContent('Nenhuma tarefa por aqui');
+    expect(screen.getByRole('status')).toHaveTextContent('Nada por aqui');
   });
 });
