@@ -1,5 +1,15 @@
 # Verificação do TaskFlow
 
+## Instabilidade 502 e confirmação de persistência — 09/10/2026
+
+Uma tentativa posterior no Chrome em `http://localhost:5173/` apresentou POST com **502 Bad Gateway** e ausência de `Access-Control-Allow-Origin`. O servidor Vite ativo foi conferido: utilizava a pasta deste projeto e o mesmo endpoint válido do `.env`. Uma nova leitura retornou HTTP 200, CORS `*` e um registro do usuário já salvo com prazo anterior à data atual. Esse registro foi preservado; pela regra de filtro, pertence a Todas as tarefas e não à página Hoje.
+
+O erro de comunicação não permite concluir que o servidor deixou de gravar. Por isso, os avisos agora dizem que não foi possível **confirmar** o cadastro ou a exclusão e orientam a recarregar a lista antes de repetir. Não há repetição automática de POST, que poderia duplicar um cadastro já persistido.
+
+Um teste isolado adicional usou o pacote de navegador do Axios com adaptador XMLHttpRequest no jsdom e origem `http://localhost:5173/`. A primeira execução apresentou `ERR_NETWORK`. Depois que o serviço voltou a responder, a segunda execução confirmou GET 200, POST 201 e leitura do registro persistido. Somente o registro descartável desse teste foi removido; o registro do usuário permaneceu.
+
+O teste XMLHttpRequest verifica também as regras CORS implementadas pelo jsdom, mas não equivale a controlar o Chrome. As ferramentas de navegador e de inspeção nativa continuaram falhando na inicialização. O erro do Chrome foi informado pelo usuário. Lint, 65 testes e build passaram após o ajuste dos avisos.
+
 ## Endpoint expirado e nova validação — 09/10/2026
 
 Após o relato de falha no cadastro, uma consulta ao endpoint configurado no `.env` retornou **HTTP 400, `Endpoint has expired.`**. A resposta não incluía o cabeçalho CORS, de modo que o navegador pode apresentá-la como erro de rede. O endpoint temporário foi renovado somente no `.env` local, que permanece ignorado pelo Git.

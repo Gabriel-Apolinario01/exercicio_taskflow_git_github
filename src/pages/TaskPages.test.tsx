@@ -69,7 +69,7 @@ describe('Páginas de tarefas', () => {
     renderizar();
     const excluir = await screen.findByRole('button', { name: 'Excluir tarefa: Prazo hoje' });
     fireEvent.click(excluir);
-    expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível excluir a tarefa.');
+    expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível confirmar a exclusão.');
     expect(screen.getAllByRole('article')).toHaveLength(tarefas.length);
     expect(excluir).toBeEnabled();
     fireEvent.click(excluir);

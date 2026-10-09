@@ -101,13 +101,16 @@ describe('Layout integrado', () => {
     const dialogo = within(screen.getByRole('dialog', { name: 'Nova tarefa' }));
     await user.type(dialogo.getByLabelText(/Título/), 'Preservar meu cadastro');
     await user.click(dialogo.getByRole('button', { name: 'Criar tarefa' }));
-    expect(await dialogo.findByRole('alert')).toHaveTextContent('VITE_API_URL');
+    expect(await dialogo.findByRole('alert')).toHaveTextContent('Abra Todas as tarefas e recarregue a página');
+    expect(dialogo.getByRole('alert')).toHaveTextContent('a tarefa pode ter sido salva');
+    expect(criarTarefa).toHaveBeenCalledTimes(1);
     expect(dialogo.getByLabelText(/Título/)).toHaveValue('Preservar meu cadastro');
     expect(screen.queryByRole('article')).not.toBeInTheDocument();
     await user.click(dialogo.getByRole('button', { name: 'Criar tarefa' }));
     expect(await screen.findByRole('heading', { name: 'Preservar meu cadastro' })).toBeInTheDocument();
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(criarTarefa).toHaveBeenCalledTimes(2);
   });
 
   it('preserva Header e Sidebar nas quatro rotas e destaca apenas o link ativo', async () => {

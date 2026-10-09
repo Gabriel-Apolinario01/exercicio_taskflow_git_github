@@ -56,6 +56,8 @@ Abra o endereço exibido pelo Vite. Sem endpoint configurado, a navegação cont
 
 **Cadastrar tarefas precisa funcionar.** Se o CrudCrud informar `Endpoint has expired`, gere um endpoint novo, atualize `VITE_API_URL` no `.env`, encerre o Vite com Ctrl+C e execute `npm run dev` novamente. Recarregue a página. Uma tarefa sem prazo aparece em **Todas as tarefas**; **Hoje** mostra apenas as pendentes com prazo na data atual. Trocar o endpoint inicia outra coleção e não recupera os registros do endpoint expirado.
 
+Erros **502/504** indicam falha na comunicação do gateway com o serviço e podem vir acompanhados de erro CORS no navegador. Isso não comprova que o endpoint expirou nem que o cadastro não foi salvo. Abra **Todas as tarefas** e recarregue antes de tentar cadastrar novamente, para conferir a persistência e evitar duplicatas. Uma tarefa com prazo anterior ao dia atual também aparece somente em **Todas as tarefas**. A aplicação não repete POST automaticamente nem substitui a persistência real por dados locais.
+
 As variáveis `VITE_` fazem parte do código enviado ao navegador. O `.env` fica fora do Git; não coloque senhas nem chaves privadas nele para uso pelo frontend.
 
 ## Verificar
