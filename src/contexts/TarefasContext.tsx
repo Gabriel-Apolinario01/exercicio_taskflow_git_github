@@ -57,7 +57,7 @@ export function TarefasProvider({ children }: Readonly<{ children: ReactNode }>)
       setTarefas((atuais) => [tarefaCriada, ...atuais]);
     } catch (causa) {
       const mensagem = causa instanceof ConfiguracaoApiError
-        ? causa.message : 'Não foi possível criar a tarefa.';
+        ? causa.message : 'Não foi possível criar a tarefa. Confira a conexão e se o endpoint do CrudCrud ainda está válido; ele é temporário. Se expirou, atualize VITE_API_URL no .env e reinicie o servidor.';
       setErro(mensagem);
       // O TaskForm trata a rejeição; o TaskModal só fecha após o sucesso.
       throw new Error(mensagem, { cause: causa });
@@ -72,7 +72,7 @@ export function TarefasProvider({ children }: Readonly<{ children: ReactNode }>)
     } catch (causa) {
       // Como na aula, o erro fica disponível ao consumidor sem remover o registro.
       setErro(causa instanceof ConfiguracaoApiError
-        ? causa.message : 'Não foi possível excluir a tarefa.');
+        ? causa.message : 'Não foi possível excluir a tarefa. Confira a conexão e se o endpoint do CrudCrud ainda está válido; ele é temporário. Se expirou, atualize VITE_API_URL no .env e reinicie o servidor.');
     }
   }
 
