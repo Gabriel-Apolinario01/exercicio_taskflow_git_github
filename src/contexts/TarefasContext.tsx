@@ -36,7 +36,7 @@ export function TarefasProvider({ children }: Readonly<{ children: ReactNode }>)
         if (ativo) {
           setErro(causa instanceof ConfiguracaoApiError
             ? causa.message
-            : 'Não foi possível carregar as tarefas. Confira a conexão e o endpoint do CrudCrud.');
+            : 'Não foi possível carregar as tarefas. O serviço pode estar temporariamente indisponível. Recarregue a página; se o erro continuar, confira a conexão e a validade do endpoint do CrudCrud.');
         }
       } finally {
         if (ativo) setCarregando(false);
@@ -57,7 +57,7 @@ export function TarefasProvider({ children }: Readonly<{ children: ReactNode }>)
       setTarefas((atuais) => [tarefaCriada, ...atuais]);
     } catch (causa) {
       const mensagem = causa instanceof ConfiguracaoApiError
-        ? causa.message : 'Não foi possível criar a tarefa. Confira a conexão e se o endpoint do CrudCrud ainda está válido; ele é temporário. Se expirou, atualize VITE_API_URL no .env e reinicie o servidor.';
+        ? causa.message : 'Não foi possível confirmar o cadastro. Abra Todas as tarefas e recarregue a página antes de tentar novamente: a tarefa pode ter sido salva. Se o erro continuar, confira a conexão e a disponibilidade ou validade do endpoint do CrudCrud.';
       setErro(mensagem);
       // O TaskForm trata a rejeição; o TaskModal só fecha após o sucesso.
       throw new Error(mensagem, { cause: causa });
@@ -72,7 +72,7 @@ export function TarefasProvider({ children }: Readonly<{ children: ReactNode }>)
     } catch (causa) {
       // Como na aula, o erro fica disponível ao consumidor sem remover o registro.
       setErro(causa instanceof ConfiguracaoApiError
-        ? causa.message : 'Não foi possível excluir a tarefa. Confira a conexão e se o endpoint do CrudCrud ainda está válido; ele é temporário. Se expirou, atualize VITE_API_URL no .env e reinicie o servidor.');
+        ? causa.message : 'Não foi possível confirmar a exclusão. Recarregue a página antes de tentar novamente: a tarefa pode ter sido excluída. Se o erro continuar, confira a conexão e a disponibilidade ou validade do endpoint do CrudCrud.');
     }
   }
 

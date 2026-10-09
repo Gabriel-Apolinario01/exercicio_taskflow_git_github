@@ -132,7 +132,7 @@ describe('TaskModal', () => {
     await user.click(screen.getByRole('button', { name: 'Abrir cadastro' }));
     await user.type(screen.getByLabelText(/Título/), 'Estudar React');
     await user.click(screen.getByRole('button', { name: 'Criar tarefa' }));
-    expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível criar a tarefa.');
+    expect(await screen.findByRole('alert')).toHaveTextContent('Não foi possível confirmar o cadastro.');
     expect(screen.getByRole('dialog')).toBeInTheDocument();
     expect(screen.getByLabelText(/Título/)).toHaveValue('Estudar React');
     expect(screen.getByRole('button', { name: 'Fechar' })).toBeEnabled();

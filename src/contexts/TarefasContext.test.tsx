@@ -70,10 +70,10 @@ describe('TarefasProvider', () => {
     const { result } = renderHook(useTarefas, { wrapper });
     await waitFor(() => expect(result.current.carregando).toBe(false));
     await act(async () => {
-      await expect(result.current.adicionarTarefa(nova)).rejects.toThrow('Não foi possível criar');
+      await expect(result.current.adicionarTarefa(nova)).rejects.toThrow('Não foi possível confirmar o cadastro');
     });
     expect(result.current.tarefas).toEqual([antiga]);
-    expect(result.current.erro).toContain('Não foi possível criar a tarefa.');
+    expect(result.current.erro).toContain('Não foi possível confirmar o cadastro.');
     expect(result.current.erro).toContain('endpoint do CrudCrud');
     await act(async () => { await result.current.adicionarTarefa(nova); });
     expect(result.current.erro).toBe('');
@@ -99,7 +99,7 @@ describe('TarefasProvider', () => {
     await waitFor(() => expect(result.current.carregando).toBe(false));
     await act(async () => { await result.current.removerTarefa('antiga'); });
     expect(result.current.tarefas).toEqual([antiga]);
-    expect(result.current.erro).toContain('Não foi possível excluir a tarefa.');
+    expect(result.current.erro).toContain('Não foi possível confirmar a exclusão.');
   });
 
   it('preserva criações que terminam antes do carregamento inicial, sem duplicar _id', async () => {
