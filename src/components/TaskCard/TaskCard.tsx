@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { CalendarDays, Circle, CircleCheckBig, Folder, LoaderCircle, Trash2 } from 'lucide-react';
+import { CalendarDays, Circle, CircleCheckBig, LoaderCircle, Trash2 } from 'lucide-react';
 import type { Prioridade, Tarefa } from '../../types/Tarefa';
 import './TaskCard.css';
 
@@ -27,33 +27,30 @@ export function TaskCard({ tarefa, aoExcluir }: Readonly<TaskCardProps>) {
 
   return (
     <article className={`task-card${tarefa.concluida ? ' task-card--completed' : ''}`} aria-busy={excluindo}>
-      <div className="task-card__top">
-        <span className={`task-card__priority task-card__priority--${tarefa.prioridade}`}>
-          <span aria-hidden="true" />Prioridade {prioridades[tarefa.prioridade]}
-        </span>
-        <span className="task-card__status"><Status size={16} aria-hidden="true" />{tarefa.concluida ? 'Concluída' : 'Pendente'}</span>
-      </div>
-      <h2 className="task-card__title">{tarefa.titulo}</h2>
-      <p className="task-card__description">{tarefa.descricao || 'Sem descrição.'}</p>
-      <dl className="task-card__details">
-        <div>
-          <dt><CalendarDays size={15} aria-hidden="true" />Prazo</dt>
-          <dd>{tarefa.data ? <time dateTime={tarefa.data}>{tarefa.data.split('-').reverse().join('/')}</time> : 'Sem prazo'}</dd>
+      <span className="task-card__check">
+        <Status size={22} aria-hidden="true" />
+        <span className="sr-only">{tarefa.concluida ? 'Concluída' : 'Pendente'}</span>
+      </span>
+      <div className="task-card__content">
+        <div className="task-card__header">
+          <h2>{tarefa.titulo}</h2>
+          <div className="task-card__actions">
+            <button
+              type="button" onClick={() => void excluir()}
+              disabled={excluindo || !tarefa._id} aria-label={`Excluir tarefa: ${tarefa.titulo}`}
+              title={!tarefa._id ? 'A tarefa ainda não tem um identificador para exclusão.' : 'Excluir tarefa'}
+            >
+              {excluindo ? <LoaderCircle className="task-card__spinner" size={17} aria-hidden="true" /> : <Trash2 size={17} aria-hidden="true" />}
+              <span className="sr-only">{excluindo ? 'Excluindo...' : 'Excluir'}</span>
+            </button>
+          </div>
         </div>
-        <div>
-          <dt><Folder size={15} aria-hidden="true" />Projeto</dt>
-          <dd>{tarefa.projeto || 'Sem projeto'}</dd>
+        <p>{tarefa.descricao || 'Sem descrição.'}</p>
+        <div className="task-card__meta">
+          <span><CalendarDays size={15} aria-hidden="true" />{tarefa.data ? <time dateTime={tarefa.data}>{tarefa.data.split('-').reverse().join('/')}</time> : 'Sem prazo'}</span>
+          <span>{tarefa.projeto || 'Sem projeto'}</span>
+          <span>Prioridade {prioridades[tarefa.prioridade]}</span>
         </div>
-      </dl>
-      <div className="task-card__footer">
-        <button
-          className="task-card__delete" type="button" onClick={() => void excluir()}
-          disabled={excluindo || !tarefa._id} aria-label={`Excluir tarefa: ${tarefa.titulo}`}
-          title={!tarefa._id ? 'A tarefa ainda não tem um identificador para exclusão.' : undefined}
-        >
-          {excluindo ? <LoaderCircle className="task-card__spinner" size={16} aria-hidden="true" /> : <Trash2 size={16} aria-hidden="true" />}
-          {excluindo ? 'Excluindo...' : 'Excluir'}
-        </button>
       </div>
     </article>
   );

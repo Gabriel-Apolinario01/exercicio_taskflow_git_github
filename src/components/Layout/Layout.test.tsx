@@ -17,10 +17,54 @@ beforeEach(() => {
 });
 
 describe('Layout integrado', () => {
+  it('busca por título, descrição e projeto sem acentos e restaura a coleção ao limpar', async () => {
+    const base = { descricao: '', data: '', prioridade: 'medium' as const, projeto: '', concluida: false };
+    vi.mocked(listarTarefas).mockResolvedValue([
+      { ...base, _id: '1', titulo: 'Revisão comercial', descricao: 'Conferir orçamento', projeto: 'Atlas' },
+      { ...base, _id: '2', titulo: 'Estudar React' },
+    ]);
+    const user = userEvent.setup();
+    render(<App />);
+    await screen.findByRole('heading', { name: 'Revisão comercial' });
+    const busca = screen.getByRole('searchbox', { name: 'Buscar tarefas' });
+    for (const termo of ['REVISAO', 'orcamento', 'atlas']) {
+      await user.clear(busca);
+      await user.type(busca, termo);
+      expect(screen.getByRole('heading', { name: 'Revisão comercial' })).toBeInTheDocument();
+      expect(screen.queryByRole('heading', { name: 'Estudar React' })).not.toBeInTheDocument();
+    }
+    await user.clear(busca);
+    await user.type(busca, 'inexistente');
+    expect(screen.getByRole('status')).toHaveTextContent('Nenhuma tarefa encontrada');
+    await user.clear(busca);
+    expect(screen.getAllByRole('article')).toHaveLength(2);
+    expect(listarTarefas).toHaveBeenCalledTimes(1);
+  });
+
+  it('combina a busca da URL com o filtro da página sem alterar os dados compartilhados', async () => {
+    const base = { descricao: '', data: '', prioridade: 'medium' as const, projeto: '' };
+    vi.mocked(listarTarefas).mockResolvedValue([
+      { ...base, _id: '1', titulo: 'React concluído', concluida: true },
+      { ...base, _id: '2', titulo: 'React pendente', concluida: false },
+      { ...base, _id: '3', titulo: 'CSS concluído', concluida: true },
+    ]);
+    window.history.replaceState(null, '', '/concluidas?q=react');
+    const user = userEvent.setup();
+    render(<App />);
+    await screen.findByRole('heading', { name: 'React concluído' });
+    expect(screen.getAllByRole('article')).toHaveLength(1);
+    expect(screen.getByRole('searchbox')).toHaveValue('react');
+    await user.clear(screen.getByRole('searchbox'));
+    expect(screen.getAllByRole('article')).toHaveLength(2);
+    await user.click(screen.getByRole('link', { name: 'Todas as tarefas' }));
+    expect(screen.getAllByRole('article')).toHaveLength(3);
+    expect(listarTarefas).toHaveBeenCalledTimes(1);
+  });
+
   it('abre um único modal por cada um dos três botões e devolve o foco ao gatilho', async () => {
     const user = userEvent.setup();
     const { container } = render(<App />);
-    await screen.findByText('Nenhuma tarefa por aqui');
+    await screen.findByText('Nada por aqui');
     const botoes = screen.getAllByRole('button', { name: 'Nova tarefa' });
     expect(botoes).toHaveLength(3);
     for (const botao of botoes) {
@@ -38,7 +82,7 @@ describe('Layout integrado', () => {
   it('cria pelo modal compartilhado e atualiza o card sem recarregar a página', async () => {
     const user = userEvent.setup();
     render(<App />);
-    await screen.findByText('Nenhuma tarefa por aqui');
+    await screen.findByText('Nada por aqui');
     await user.click(within(screen.getByRole('main')).getByRole('button', { name: 'Nova tarefa' }));
     await user.type(screen.getByLabelText(/Título/), 'Entregar interface');
     await user.click(screen.getByRole('button', { name: 'Criar tarefa' }));
