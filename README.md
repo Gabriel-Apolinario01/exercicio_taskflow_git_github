@@ -54,6 +54,8 @@ npm run dev
 
 Abra o endereço exibido pelo Vite. Sem endpoint configurado, a navegação continua funcionando e a página **Todas as tarefas** informa a configuração pendente. Não existe substituição silenciosa por dados fictícios ou por armazenamento local.
 
+**Cadastrar tarefas precisa funcionar.** Se o CrudCrud informar `Endpoint has expired`, gere um endpoint novo, atualize `VITE_API_URL` no `.env`, encerre o Vite com Ctrl+C e execute `npm run dev` novamente. Recarregue a página. Uma tarefa sem prazo aparece em **Todas as tarefas**; **Hoje** mostra apenas as pendentes com prazo na data atual. Trocar o endpoint inicia outra coleção e não recupera os registros do endpoint expirado.
+
 As variáveis `VITE_` fazem parte do código enviado ao navegador. O `.env` fica fora do Git; não coloque senhas nem chaves privadas nele para uso pelo frontend.
 
 ## Verificar
@@ -62,7 +64,7 @@ As variáveis `VITE_` fazem parte do código enviado ao navegador. O `.env` fica
 npm run check
 ```
 
-O comando executa ESLint, 64 testes Vitest e a compilação TypeScript/Vite. Os testes automatizados usam respostas simuladas da API e não consomem o limite do CrudCrud. A conferência manual com API real é registrada separadamente em [VALIDACAO.md](docs/VALIDACAO.md).
+O comando executa ESLint, 65 testes Vitest e a compilação TypeScript/Vite. Os testes automatizados usam respostas simuladas da API e não consomem o limite do CrudCrud. Os testes com API real são registrados separadamente em [VALIDACAO.md](docs/VALIDACAO.md).
 
 Comandos individuais: `npm run lint`, `npm test`, `npm run build` e `npm run preview`.
 

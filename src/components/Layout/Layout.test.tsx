@@ -92,6 +92,24 @@ describe('Layout integrado', () => {
     expect(listarTarefas).toHaveBeenCalledTimes(1);
   });
 
+  it('mantém o modal e os campos quando o cadastro falha, orienta sobre o endpoint e permite tentar novamente', async () => {
+    vi.mocked(criarTarefa).mockRejectedValueOnce(new Error('Network Error'));
+    const user = userEvent.setup();
+    render(<App />);
+    await screen.findByText('Nada por aqui');
+    await user.click(within(screen.getByRole('main')).getByRole('button', { name: 'Nova tarefa' }));
+    const dialogo = within(screen.getByRole('dialog', { name: 'Nova tarefa' }));
+    await user.type(dialogo.getByLabelText(/Título/), 'Preservar meu cadastro');
+    await user.click(dialogo.getByRole('button', { name: 'Criar tarefa' }));
+    expect(await dialogo.findByRole('alert')).toHaveTextContent('VITE_API_URL');
+    expect(dialogo.getByLabelText(/Título/)).toHaveValue('Preservar meu cadastro');
+    expect(screen.queryByRole('article')).not.toBeInTheDocument();
+    await user.click(dialogo.getByRole('button', { name: 'Criar tarefa' }));
+    expect(await screen.findByRole('heading', { name: 'Preservar meu cadastro' })).toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+  });
+
   it('preserva Header e Sidebar nas quatro rotas e destaca apenas o link ativo', async () => {
     const user = userEvent.setup();
     render(<App />);

@@ -1,5 +1,24 @@
 # Verificação do TaskFlow
 
+## Endpoint expirado e nova validação — 09/10/2026
+
+Após o relato de falha no cadastro, uma consulta ao endpoint configurado no `.env` retornou **HTTP 400, `Endpoint has expired.`**. A resposta não incluía o cabeçalho CORS, de modo que o navegador pode apresentá-la como erro de rede. O endpoint temporário foi renovado somente no `.env` local, que permanece ignorado pelo Git.
+
+As mensagens de falha de criação e exclusão agora orientam a conferir conexão e validade do endpoint e a atualizar `.env`/reiniciar o servidor quando necessário. A mensagem não afirma que toda falha decorre de expiração.
+
+O próprio `tarefaService.ts` foi carregado pelo Vite e executado no Node, com Axios real e sem simulação de HTTP:
+
+- GET inicial: coleção vazia.
+- POST: uma tarefa descartável criada com identificador retornado pelo CrudCrud.
+- Novo GET: confirmou que a tarefa foi persistida.
+- OPTIONS com origem `http://localhost:5173`: HTTP 204 e cabeçalhos CORS permitindo POST.
+- DELETE: apenas o registro descartável criado no teste foi removido.
+- GET final: zero registros, confirmando a limpeza.
+
+`npm run check` passou: lint, **65 testes em 7 arquivos** e build TypeScript/Vite. O novo teste de integração verifica que uma falha mantém o modal aberto e o título preenchido, exibe a orientação sobre o endpoint e permite salvar na tentativa seguinte.
+
+Esta validação real do serviço não equivale a uma nova execução da interface no navegador. A ferramenta de navegador continua falhando na inicialização; a conferência visual renderizada permanece pendente. O endpoint renovado também é temporário e precisa estar válido na apresentação.
+
 ## Revisão visual e busca — 09/10/2026
 
 A revisão partiu da versão integrada `31fcde9`, em `codex/gabriel`. O CSS do repositório do professor foi incorporado como base visual; os componentes foram adaptados para a lista em linhas, o cabeçalho com busca e os campos do modelo, preservando contexto, modal e operações da atividade. Veja a origem e as adaptações em [REFERENCIA_VISUAL.md](REFERENCIA_VISUAL.md).
@@ -76,9 +95,10 @@ A associação de autoria foi conferida pela API do GitHub. O repositório está
 
 - [x] As três contribuições possuem alterações e commits em branches individuais.
 - [x] Os merges de Gabriel, Felipe e Leonardo permanecem no histórico.
-- [x] Instalação validada em 08/10; lint, 64 testes e build aprovados em 09/10.
+- [x] Instalação validada em 08/10; lint, 65 testes e build aprovados em 09/10.
 - [x] Contexto, serviço, páginas, cards, formulário e modal funcionam juntos.
 - [x] GET/POST/DELETE conferidos com CrudCrud real e persistência após recarregar em 08/10.
+- [x] Serviço GET/POST/DELETE e permissão CORS testados novamente com endpoint válido em 09/10, após diagnosticar a expiração.
 - [x] Três gatilhos, bloqueio do fundo e foco cobertos novamente pelos testes automatizados em 09/10.
 - [ ] Conferir o novo layout renderizado em desktop e celular; a inspeção anterior de responsividade é de 08/10.
 - [x] Cenários de falha cobertos pelos testes automatizados; instabilidade real de GET observada.

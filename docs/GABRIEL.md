@@ -44,6 +44,8 @@ A busca usa `useSearchParams`: o Header atualiza `q` na URL e TaskPage filtra as
 
 ## Para futuras correções
 
+Ainda em 09/10, o cadastro falhou por expiração confirmada do endpoint (HTTP 400). A configuração local foi renovada, as mensagens de erro receberam orientação e o serviço passou por novo teste GET/POST/DELETE real. O teste de recuperação do formulário elevou o total para 65; detalhes em [VALIDACAO.md](VALIDACAO.md).
+
 Desenvolva em `codex/gabriel`, com a árvore de trabalho limpa, trazendo a versão integrada antes de alterar arquivos:
 
 ```bash
